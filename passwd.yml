@@ -2,7 +2,8 @@
 # file: passwd.yml
 - hosts: all:!empanada.bl.fcen.uba.ar
   gather_facts: false
-  sudo: true
+  become: true
+  become_user: root
   roles:
     - passwd
   vars_prompt:

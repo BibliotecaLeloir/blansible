@@ -36,6 +36,43 @@
   group: name=ssh_allowed state=present
 
 
+- name: Creating users in debian
+  user:
+    state=present
+    name={{ item.name }}
+    shell=/bin/bash
+    groups=adm,sudo,ssh_allowed
+    append=yes
+    comment='{{ item.gecos }}'
+    password="{{ item.password }}"
+    update_password=always
+  with_items: '{{users}}'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+
+- name: Creating users in RHEL
+  user:
+    state=present
+    name={{ item.name }}
+    shell=/bin/bash
+    groups=adm,wheel,ssh_allowed
+    append=yes
+    comment='{{ item.gecos }}'
+    password="{{ item.password }}"
+    update_password=always
+  with_items: '{{users}}'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Installing ssh keys for people
+  authorized_key:
+    user="{{ item.0.name }}"
+    key="{{ item.1 }}"
+    manage_dir=yes
+  with_subelements:
+     - '{{users}}'
+     - keys
+
+
 - name: AllowGroups SSH (Debian)
   lineinfile:
     dest=/etc/ssh/sshd_config
@@ -95,38 +132,12 @@
   notify: restart ssh (CentOS)
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-
-- name: Creating users in debian
+- name: root en ssh_allowed
   user:
     state=present
-    name={{ item.name }}
-    shell=/bin/bash
-    groups=adm,sudo,ssh_allowed
+    name=root
+    groups=ssh_allowed
     append=yes
-    comment='{{ item.gecos }}'
-  with_items: '{{users}}'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
-
-
-- name: Creating users in RHEL
-  user:
-    state=present
-    name={{ item.name }}
-    shell=/bin/bash
-    groups=adm,wheel,ssh_allowed
-    append=yes
-    comment='{{ item.gecos }}'
-  with_items: '{{users}}'
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-- name: Installing ssh keys for people
-  authorized_key:
-    user="{{ item.0.name }}"
-    key="{{ item.1 }}"
-    manage_dir=yes
-  with_subelements:
-     - '{{users}}'
-     - keys
 
 #- name: Removing ssh keys
 #  authorized_key:
