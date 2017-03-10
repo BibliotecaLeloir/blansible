@@ -1,0 +1,16 @@
+---
+# file: passwd.yml
+- hosts: all:!empanada.bl.fcen.uba.ar
+  gather_facts: false
+  sudo: true
+  roles:
+    - passwd
+  vars_prompt:
+    - name: login
+      prompt: "Enter the username"
+      private: no
+    - name: pass
+      prompt: "Enter new password"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes

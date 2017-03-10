@@ -1,0 +1,16 @@
+---
+# file: roles/passwd/tasks/main.yml
+
+- name: Checking if user exists.
+  command: "id -u {{ login }}"
+  register: exists
+  ignore_errors: True
+  changed_when: False
+
+- name: Changing passwords
+  user:
+    state=present
+    name={{ login }}
+    password="{{ pass }}"
+    update_password=always
+  when: exists|success
