@@ -1,0 +1,8 @@
+---
+# file: roles/users/handlers/main.yml
+
+- name: restart ssh (Debian)
+  service: name=ssh state=restarted
+
+- name: restart ssh (CentOS)
+  service: name=sshd state=restarted

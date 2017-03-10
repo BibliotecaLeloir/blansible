@@ -1,0 +1,9 @@
+Primero que nada completar con el usuario correcto en passwd.yml o sshauth.yml según qué playbook se vaya a utilizar.
+
+Execute one run
+
+$ ansible-playbook -i rackspace-cloud site.yml -K
+
+Execute one run limiting to one host
+
+$ ansible-playbook -i rackspace-cloud site.yml -K --limit 15.sd.cloud.invgate.net

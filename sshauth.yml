@@ -1,0 +1,10 @@
+---
+# file: sshauth.yml
+
+- hosts: all:!empanada.bl.fcen.uba.ar
+  gather_facts: true
+  sudo: true
+  roles:
+    - users
+  vars_files:
+    - vars/secrets.yml

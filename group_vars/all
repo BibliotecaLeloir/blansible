@@ -1,0 +1,16 @@
+---
+# file: group_vars/all
+
+header_lines: 
+  - '###==################=################==###'
+  - '# Do not edit by hand!                    #'
+  - '# File created through config management. #'
+  - '# Warning!                                #'  
+  - '###########################################'
+
+header: | 
+  ###########################################
+  # Do not edit by hand!                    #
+  # File created through config management. #
+  # Warning!                                #  
+  ###==################=################==###

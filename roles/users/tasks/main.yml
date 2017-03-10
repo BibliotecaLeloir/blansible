@@ -1,0 +1,155 @@
+---
+# file: roles/users/tasks/main.yml
+
+- name: Installing sudo in debian
+  apt: pkg=sudo state=present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+- name: Installing sudo in RHEL
+  yum: name=sudo state=present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+#- name: Insert warning header in sshd_config
+#  lineinfile:   dest=/etc/ssh/sshd_config
+#                regexp="{{ item }}"
+#                insertbefore=BOF
+#                line="{{ item }}"
+#                backup=yes
+#                validate="/usr/sbin/sshd -T -f %s"
+#  with_items: header_lines
+#  notify: restart ssh
+
+# - name: Disallow SSH access with password
+#   action: lineinfile dest=/etc/ssh/sshd_config
+#           regexp="^#?PasswordAuthentication"
+#           line="PasswordAuthentication no"
+#           state=present
+#           backup=yes
+#           validate="/usr/sbin/sshd -T -f %s"
+#   notify: restart ssh
+
+
+- name: Creating sudo group
+  group: name=sudo state=present
+
+- name: Creating ssh_allowed group
+  group: name=ssh_allowed state=present
+
+- name: AllowGroups SSH (Debian)
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    insertafter=EOF
+    line='AllowGroups ssh_allowed'
+    validate='/usr/sbin/sshd -T -f %s'
+  notify: restart ssh (Debian)
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+- name: AllowGroups SSH (CentOS)
+  lineinfile:
+      dest=/etc/ssh/sshd_config
+      state=present
+      insertafter=EOF
+      line='AllowGroups ssh_allowed'
+      validate='/usr/sbin/sshd -t -f %s'
+  notify: restart ssh (CentOS)
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Sacar AllowUsers de SSH (Debian)
+  replace:
+    dest=/etc/ssh/sshd_config
+    regexp='^AllowUsers (.*)$'
+    replace='#AllowUsers \1'
+    validate='sudo /usr/sbin/sshd -T -f %s'
+  notify: restart ssh (Debian)
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+- name: Sacar AllowUsers de SSH (CentOS)
+  replace:
+      dest=/etc/ssh/sshd_config
+      regexp='^AllowUsers (.*)$'
+      replace='#AllowUsers \1'
+      validate='sudo /usr/sbin/sshd -t -f %s'
+  notify: restart ssh (CentOS)
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: PermitRootLogin solo con key (Debian)
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='PermitRootLogin without-password'
+    regexp='^PermitRootLogin'
+    validate='sudo /usr/sbin/sshd -T -f %s'
+  notify: restart ssh (Debian)
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+- name: PermitRootLogin solo con key (CentOS)
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='PermitRootLogin without-password'
+    regexp='^PermitRootLogin'
+    validate='sudo /usr/sbin/sshd -t -f %s'
+  notify: restart ssh (CentOS)
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Creating users in debian
+  user:
+    state=present
+    name={{ item.name }}
+    shell=/bin/bash
+    groups=adm,sudo,ssh_allowed
+    append=yes
+    comment='{{ item.gecos }}'
+  with_items: users
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
+
+
+- name: Creating users in RHEL
+  user:
+    state=present
+    name={{ item.name }}
+    shell=/bin/bash
+    groups=adm,wheel,ssh_allowed
+    append=yes
+    comment='{{ item.gecos }}'
+  with_items: users
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Installing ssh keys for people
+  authorized_key:
+    user={{ item.0.name }}
+    key="{{ item.1 }}"
+    manage_dir=yes
+  with_subelements:
+     - users
+     - keys
+
+- name: Removing ssh keys
+  authorized_key:
+    state=absent
+    user={{ item.0.name }}
+    key="{{ item.1 }}"
+    manage_dir=yes
+  with_subelements:
+     - remove_keys
+     - keys
+
+- name: Removing users marked for deletion
+  user: name={{ item }} state=absent
+  with_items: removed_users
+
+# - name: Insert warning header in sshd_config
+#   lineinfile:   dest=/etc/ssh/sshd_config
+#                 regexp="s/{{ header }}/n"
+#                 insertbefore=BOF
+#                 line="{{ header }}"
+#                 state=present
+#   notify: restart ssh
+
+# Usefull for debugging.
+# - name: Debug1
+#   debug: msg="{{ lookup('file', './' + item.name + '/' + item.name + '.pub' ) }} is the pass"
+#   with_items: users
