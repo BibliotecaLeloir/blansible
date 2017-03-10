@@ -4,3 +4,6 @@ y luego correr
   ansible-playbook -K sshauth.yml --check
 
 y si todo va bien, correrlo sin --check
+
+
+Los hashes de passwords se generan con mkpasswd en Linux. Ver http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
