@@ -3,8 +3,11 @@
 
 - hosts: all:!empanada.bl.fcen.uba.ar
   gather_facts: true
-  sudo: true
+  become: true
+  become_user: root
   roles:
     - users
   vars_files:
     - vars/secrets.yml
+  environment:
+    http_proxy: http://proxy.fcen.uba.ar:8080

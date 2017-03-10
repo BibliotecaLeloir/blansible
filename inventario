@@ -6,8 +6,8 @@ almacen03.bl.fcen.uba.ar
 
 
 [samba4]
-mataburros1.interna.bl.fcen.uba.ar
-mataburros2.interna.bl.fcen.uba.ar
+mataburros1.bl.fcen.uba.ar
+mataburros2.bl.fcen.uba.ar
 
 [dns]
 ns1.bl.fcen.uba.ar
@@ -25,7 +25,7 @@ huevo1.bl.fcen.uba.ar
 
 [gazpachos]
 git.bl.fcen.uba.ar
-mataburros1.interna.bl.fcen.uba.ar
+mataburros1.bl.fcen.uba.ar
 #tftp.bl.fcen.uba.ar
 #eprints.bl.fcen.uba.ar
 salt.bl.fcen.uba.ar
@@ -40,7 +40,7 @@ greenstone3.bl.fcen.uba.ar
 piwik.bl.fcen.uba.ar
 
 [bananas]
-mataburros2.interna.bl.fcen.uba.ar
+mataburros2.bl.fcen.uba.ar
 huevo1.bl.fcen.uba.ar
 ns1.bl.fcen.uba.ar
 icinga.bl.fcen.uba.ar
