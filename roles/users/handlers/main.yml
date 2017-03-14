@@ -3,6 +3,8 @@
 
 - name: restart ssh (Debian)
   service: name=ssh state=restarted
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
 
 - name: restart ssh (CentOS)
   service: name=sshd state=restarted
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
