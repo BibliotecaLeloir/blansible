@@ -7,7 +7,7 @@
 
 - name: Installing sudo in RHEL
   yum: name=sudo state=present
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
 
 #- name: Insert warning header in sshd_config
 #  lineinfile:   dest=/etc/ssh/sshd_config
@@ -35,6 +35,39 @@
 - name: Creating ssh_allowed group
   group: name=ssh_allowed state=present
 
+- name: AllowGroups SSH
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    insertafter=EOF
+    line='AllowGroups ssh_allowed'
+    validate='/usr/sbin/sshd -t -f %s'
+  notify:
+    - restart ssh (Debian)
+    - restart ssh (CentOS)
+
+- name: Sacar AllowUsers de SSH
+  replace:
+      dest=/etc/ssh/sshd_config
+      regexp='^AllowUsers (.*)$'
+      replace='#AllowUsers \1'
+      validate='sudo /usr/sbin/sshd -t -f %s'
+  notify:
+    - restart ssh (Debian)
+    - restart ssh (CentOS)
+
+
+- name: PermitRootLogin solo con key
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='PermitRootLogin without-password'
+    regexp='^PermitRootLogin'
+    validate='sudo /usr/sbin/sshd -T -f %s'
+  notify:
+    - restart ssh (Debian)
+    - restart ssh (CentOS)
+
 
 - name: Creating users in debian
   user:
@@ -61,7 +94,7 @@
     password="{{ item.password }}"
     update_password=always
   with_items: '{{users}}'
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
 
 - name: Installing ssh keys for people
   authorized_key:
@@ -71,66 +104,6 @@
   with_subelements:
      - '{{users}}'
      - keys
-
-
-- name: AllowGroups SSH (Debian)
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    state=present
-    insertafter=EOF
-    line='AllowGroups ssh_allowed'
-    validate='/usr/sbin/sshd -T -f %s'
-  notify: restart ssh (Debian)
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
-
-- name: AllowGroups SSH (CentOS)
-  lineinfile:
-      dest=/etc/ssh/sshd_config
-      state=present
-      insertafter=EOF
-      line='AllowGroups ssh_allowed'
-      validate='/usr/sbin/sshd -t -f %s'
-  notify: restart ssh (CentOS)
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-
-- name: Sacar AllowUsers de SSH (Debian)
-  replace:
-    dest=/etc/ssh/sshd_config
-    regexp='^AllowUsers (.*)$'
-    replace='#AllowUsers \1'
-    validate='sudo /usr/sbin/sshd -T -f %s'
-  notify: restart ssh (Debian)
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
-
-- name: Sacar AllowUsers de SSH (CentOS)
-  replace:
-      dest=/etc/ssh/sshd_config
-      regexp='^AllowUsers (.*)$'
-      replace='#AllowUsers \1'
-      validate='sudo /usr/sbin/sshd -t -f %s'
-  notify: restart ssh (CentOS)
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
-- name: PermitRootLogin solo con key (Debian)
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    state=present
-    line='PermitRootLogin without-password'
-    regexp='^PermitRootLogin'
-    validate='sudo /usr/sbin/sshd -T -f %s'
-  notify: restart ssh (Debian)
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
-
-- name: PermitRootLogin solo con key (CentOS)
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    state=present
-    line='PermitRootLogin without-password'
-    regexp='^PermitRootLogin'
-    validate='sudo /usr/sbin/sshd -t -f %s'
-  notify: restart ssh (CentOS)
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: root en ssh_allowed
   user:
