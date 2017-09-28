@@ -96,6 +96,15 @@
   with_items: '{{users}}'
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
 
+- name: Setting home permissions
+  file:
+    path=/home/{{ item.name }}
+    owner={{item.name}}
+    group={{item.name}}
+    recurse=yes
+  with_items: '{{users}}'
+
+
 - name: Installing ssh keys for people
   authorized_key:
     user="{{ item.0.name }}"
