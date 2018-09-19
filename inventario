@@ -25,35 +25,38 @@ huevo1.bl.fcen.uba.ar
 
 [gazpachos]
 git.bl.fcen.uba.ar
-mataburros1.bl.fcen.uba.ar
-#tftp.bl.fcen.uba.ar
-#eprints.bl.fcen.uba.ar
 salt.bl.fcen.uba.ar
 dspace.bl.fcen.uba.ar
 koha.dev.bl.fcen.uba.ar
 sharelatex.bl.fcen.uba.ar
-ns2.bl.fcen.uba.ar
-dhcp2.bl.fcen.uba.ar
 beta.digital.bl.fcen.uba.ar
 ocr0.bl.fcen.uba.ar
 greenstone3.bl.fcen.uba.ar
 piwik.bl.fcen.uba.ar
+#Repetidos
+# ns2.bl.fcen.uba.ar
+# mataburros1.bl.fcen.uba.ar
+# dhcp2.bl.fcen.uba.ar
+#Apagados
+# tftp.bl.fcen.uba.ar
+# eprints.bl.fcen.uba.ar
 
 [bananas]
-mataburros2.bl.fcen.uba.ar
-huevo1.bl.fcen.uba.ar
-ns1.bl.fcen.uba.ar
 icinga.bl.fcen.uba.ar
 db0.bl.fcen.uba.ar
 orion.bl.fcen.uba.ar
 terra.bl.fcen.uba.ar
 greenstone.bl.fcen.uba.ar
-dhcp1.bl.fcen.uba.ar
 impresiones.bl.fcen.uba.ar
 openopac.bl.fcen.uba.ar
 zimbra.bl.fcen.uba.ar
 dspace1.bl.fcen.uba.ar
 claves.bl.fcen.uba.ar
+#Repetidos
+# huevo1.bl.fcen.uba.ar
+# ns1.bl.fcen.uba.ar
+# mataburros2.bl.fcen.uba.ar
+# dhcp1.bl.fcen.uba.ar
 
 [backup]
 raclette.bl.fcen.uba.ar
