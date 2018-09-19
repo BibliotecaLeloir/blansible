@@ -50,19 +50,21 @@ greenstone.bl.fcen.uba.ar
 impresiones.bl.fcen.uba.ar
 openopac.bl.fcen.uba.ar
 zimbra.bl.fcen.uba.ar
-dspace1.bl.fcen.uba.ar
 claves.bl.fcen.uba.ar
 #Repetidos
 # huevo1.bl.fcen.uba.ar
 # ns1.bl.fcen.uba.ar
 # mataburros2.bl.fcen.uba.ar
 # dhcp1.bl.fcen.uba.ar
+#Apagados
+# dspace1.bl.fcen.uba.ar
 
 [backup]
 raclette.bl.fcen.uba.ar
 
 [almacen03]
 fileserver00.bl.fcen.uba.ar
-circuitoctd8.bl.fcen.uba.ar
 handle.bl.fcen.uba.ar
 matomo.bl.fcen.uba.ar
+#Apagados
+# circuitoctd8.bl.fcen.uba.ar
