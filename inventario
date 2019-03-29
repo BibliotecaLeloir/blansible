@@ -1,8 +1,9 @@
 [pve]
 gazpacho.bl.fcen.uba.ar
 banana.bl.fcen.uba.ar
-almacen02.bl.fcen.uba.ar
 almacen03.bl.fcen.uba.ar
+#Anulados (se administra a mano):
+# almacen02.bl.fcen.uba.ar
 
 
 [samba4]
@@ -28,7 +29,6 @@ git.bl.fcen.uba.ar
 salt.bl.fcen.uba.ar
 dspace.bl.fcen.uba.ar
 koha.dev.bl.fcen.uba.ar
-#sharelatex.bl.fcen.uba.ar
 beta.digital.bl.fcen.uba.ar
 ocr0.bl.fcen.uba.ar
 greenstone3.bl.fcen.uba.ar
@@ -40,6 +40,7 @@ piwik.bl.fcen.uba.ar
 #Apagados
 # tftp.bl.fcen.uba.ar
 # eprints.bl.fcen.uba.ar
+# sharelatex.bl.fcen.uba.ar
 
 [bananas]
 icinga.bl.fcen.uba.ar
