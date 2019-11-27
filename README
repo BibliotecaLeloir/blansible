@@ -7,3 +7,8 @@ y si todo va bien, correrlo sin --check
 
 
 Los hashes de passwords se generan con mkpasswd en Linux. Ver http://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+
+Si se desea actualizar uno o mas hosts sin tener que tocarl os otros, crear un archivo de inventario aparte (ej. inventario2) y modificar el archivo de config o ejecutar
+  ansible-playbook -K sshauth.yml -i inventario2
+
+--- NO VERSIONAR ESTE ULTIMO ARCHIVO CREADO ---
