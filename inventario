@@ -28,11 +28,13 @@ huevo1.bl.fcen.uba.ar
 git.bl.fcen.uba.ar
 salt.bl.fcen.uba.ar
 dspace.bl.fcen.uba.ar
-koha.dev.bl.fcen.uba.ar
+exkohatest.bl.fcen.uba.ar
 beta.digital.bl.fcen.uba.ar
 ocr0.bl.fcen.uba.ar
 greenstone3.bl.fcen.uba.ar
 piwik.bl.fcen.uba.ar
+koha-test.bl.fcen.uba.ar
+db1.bl.fcen.uba.ar
 #Repetidos
 # ns2.bl.fcen.uba.ar
 # mataburros1.bl.fcen.uba.ar
@@ -52,8 +54,8 @@ impresiones.bl.fcen.uba.ar
 openopac.bl.fcen.uba.ar
 zimbra.bl.fcen.uba.ar
 claves.bl.fcen.uba.ar
-koha.bl.fcen.uba.ar
-greenstone3-prod.bl.fcen.uba.ar
+exkohaprod.bl.fcen.uba.ar
+koha-prod.bl.fcen.uba.ar
 
 #Repetidos
 # huevo1.bl.fcen.uba.ar
