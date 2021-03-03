@@ -28,7 +28,7 @@ huevo1.bl.fcen.uba.ar
 git.bl.fcen.uba.ar
 salt.bl.fcen.uba.ar
 dspace.bl.fcen.uba.ar
-exkohatest.bl.fcen.uba.ar
+#exkohatest.bl.fcen.uba.ar
 beta.digital.bl.fcen.uba.ar
 ocr0.bl.fcen.uba.ar
 greenstone3.bl.fcen.uba.ar
@@ -46,7 +46,7 @@ db1.bl.fcen.uba.ar
 
 [bananas]
 icinga.bl.fcen.uba.ar
-db0.bl.fcen.uba.ar
+#db0.bl.fcen.uba.ar # deprecado por db1
 orion.bl.fcen.uba.ar
 terra.bl.fcen.uba.ar
 digital-old.bl.fcen.uba.ar # ex greenstone.bl.fcen.uba.ar
@@ -54,7 +54,7 @@ impresiones.bl.fcen.uba.ar
 openopac.bl.fcen.uba.ar
 zimbra.bl.fcen.uba.ar
 claves.bl.fcen.uba.ar
-exkohaprod.bl.fcen.uba.ar
+#exkohaprod.bl.fcen.uba.ar
 koha-prod.bl.fcen.uba.ar
 
 #Repetidos
