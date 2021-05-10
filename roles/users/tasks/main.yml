@@ -9,6 +9,10 @@
   yum: name=sudo state=present
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
 
+- name: Installing sudo in Alpine Linux
+  apk: name=sudo state=present
+  when: ansible_distribution == "Alpine" or ansible_distribution == "Alpine Linux"
+
 #- name: Insert warning header in sshd_config
 #  lineinfile:   dest=/etc/ssh/sshd_config
 #                regexp="{{ item }}"
@@ -45,7 +49,8 @@
   notify:
     - restart ssh (Debian)
     - restart ssh (CentOS)
-
+    - restart ssh (Alpine)
+    
 - name: Sacar AllowUsers de SSH
   replace:
       dest=/etc/ssh/sshd_config
@@ -55,8 +60,8 @@
   notify:
     - restart ssh (Debian)
     - restart ssh (CentOS)
-
-
+    - restart ssh (Alpine)
+  
 - name: PermitRootLogin solo con key
   lineinfile:
     dest=/etc/ssh/sshd_config
@@ -67,7 +72,7 @@
   notify:
     - restart ssh (Debian)
     - restart ssh (CentOS)
-
+    - restart ssh (Alpine)
 
 - name: Creating users in debian
   user:
@@ -82,7 +87,6 @@
   with_items: '{{users}}'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linuxmint'
 
-
 - name: Creating users in RHEL
   user:
     state=present
@@ -95,6 +99,20 @@
     update_password=always
   with_items: '{{users}}'
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
+
+- name: Creating users in Alpine Linux
+  user:
+    state=present
+    name={{ item.name }}
+    shell=/bin/ash
+    groups=adm,wheel,sudo,ssh_allowed
+    append=yes
+    comment='{{ item.gecos }}'
+    password="{{ item.password }}"
+    update_password=always
+  with_items: '{{users}}'
+  when: ansible_distribution == "Alpine" or ansible_distribution == "Alpine Linux"
+
 
 - name: Setting home permissions
   file:

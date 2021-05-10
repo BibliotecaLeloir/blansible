@@ -8,3 +8,7 @@
 - name: restart ssh (CentOS)
   service: name=sshd state=restarted
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
+
+- name: restart ssh (Alpine)
+  service: name=sshd state=restarted
+  when: ansible_distribution == "Alpine" or ansible_distribution == "Alpine Linux"
